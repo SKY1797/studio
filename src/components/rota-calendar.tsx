@@ -27,7 +27,7 @@ const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift
         MORNING:    { bg: 'bg-shift-morning',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
         EVENING:    { bg: 'bg-shift-evening',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
         NIGHT:      { bg: 'bg-shift-night',      text: 'text-primary-foreground', icon: 'text-primary-foreground', name: 'text-primary-foreground/80' },
-        WEEKLY_OFF: { bg: 'bg-shift-weekly-off', text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
+        WEEKLY_OFF: { bg: 'bg-shift-weekly-off', text: 'text-primary-foreground',         icon: 'text-primary', name: 'text-primary-foreground/80' },
         GENERAL:    { bg: 'bg-shift-general',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
     };
     
@@ -36,13 +36,13 @@ const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift
     return (
         <div
             className={cn(
-                'relative flex flex-col justify-between h-28 sm:h-32 rounded-lg p-2 border transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-md',
+                'relative flex flex-col justify-between h-full rounded-lg p-2 border transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-md',
                 !isCurrentMonth ? 'text-muted-foreground/70 bg-muted/50' : styles.bg,
                 isTodayFlag && 'ring-2 ring-primary ring-offset-2 ring-offset-background',
             )}
         >
             <div className={cn(
-                'font-bold text-base sm:text-lg',
+                'font-bold text-lg sm:text-xl',
                 isTodayFlag ? 'text-primary' : (isCurrentMonth ? styles.text : '')
             )}>
                 {format(day, 'd')}
@@ -50,7 +50,7 @@ const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift
             <div className="flex flex-col items-center text-center gap-1">
                 <ShiftIcon type={shift.type} className={cn('w-5 h-5 sm:w-6 sm:h-6', isCurrentMonth ? styles.icon : 'text-primary')} />
                 <span className={cn(
-                    'text-xs sm:text-sm font-bold',
+                    'text-sm sm:text-base font-bold',
                     isCurrentMonth ? styles.name : 'text-muted-foreground'
                 )}>{shift.name}</span>
             </div>
@@ -109,9 +109,11 @@ export default function RotaCalendar() {
   if (!isClient) {
       return <CalendarSkeleton />;
   }
+  
+  const numRows = Math.ceil(calendarDays.length / 7);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 h-full">
       <Tabs value={selectedGroup} onValueChange={(value) => setSelectedGroup(value as Group)} className="w-full max-w-sm mx-auto">
         <TabsList className="grid w-full grid-cols-4 h-12">
           <TabsTrigger value="A" className="text-xs sm:text-sm">Group A</TabsTrigger>
@@ -120,7 +122,7 @@ export default function RotaCalendar() {
           <TabsTrigger value="D" className="text-xs sm:text-sm">Group D</TabsTrigger>
         </TabsList>
       </Tabs>
-      <Card className="shadow-lg animate-in fade-in-50 duration-500">
+      <Card className="shadow-lg animate-in fade-in-50 duration-500 flex-1 flex flex-col min-h-0">
         <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
           <h2 className="text-xl font-semibold font-headline text-primary">
             {format(currentDate, 'MMMM yyyy')}
@@ -134,13 +136,16 @@ export default function RotaCalendar() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="p-2 sm:p-4">
+        <CardContent className="p-2 sm:p-4 flex-1 flex flex-col">
           <div className="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-semibold text-muted-foreground mb-2">
             {weekDays.map(day => (
               <div key={day}>{day}</div>
             ))}
           </div>
-          <div className="grid grid-cols-7 gap-1 sm:gap-2">
+          <div
+            className="grid grid-cols-7 gap-1 sm:gap-2 flex-1"
+            style={{ gridTemplateRows: `repeat(${numRows}, minmax(0, 1fr))` }}
+          >
             {calendarDays.map(day => {
               const shift = getShiftForDate(day, selectedGroup);
               return (

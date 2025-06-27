@@ -27,7 +27,7 @@ const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift
         MORNING:    { bg: 'bg-shift-morning',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
         EVENING:    { bg: 'bg-shift-evening',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
         NIGHT:      { bg: 'bg-shift-night',      text: 'text-primary-foreground', icon: 'text-primary-foreground', name: 'text-primary-foreground/80' },
-        WEEKLY_OFF: { bg: 'bg-shift-weekly-off', text: 'text-primary-foreground', icon: 'text-primary-foreground', name: 'text-primary-foreground/80' },
+        WEEKLY_OFF: { bg: 'bg-shift-weekly-off', text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
         GENERAL:    { bg: 'bg-shift-general',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
     };
     

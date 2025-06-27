@@ -44,7 +44,7 @@ body {
     --shift-morning: 91 38% 65%;
     --shift-evening: 31 91% 58%;
     --shift-night: 251 47% 12%;
-    --shift-weekly-off: 251 47% 12%;
+    --shift-weekly-off: 199 35% 62%;
     --shift-general: 207 100% 93%;
   }
   .dark {
@@ -83,7 +83,7 @@ body {
     --shift-morning: 91 38% 65%;
     --shift-evening: 31 91% 58%;
     --shift-night: 251 47% 12%;
-    --shift-weekly-off: 251 47% 12%;
+    --shift-weekly-off: 199 35% 62%;
     --shift-general: 207 100% 93%;
   }
 }

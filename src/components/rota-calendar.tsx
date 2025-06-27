@@ -15,11 +15,12 @@ import {
 } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getShiftForDate, type Shift } from '@/lib/shift-logic';
+import { getShiftForDate, type Shift, type Group } from '@/lib/shift-logic';
 import { ShiftIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift: Shift; isCurrentMonth: boolean; isTodayFlag: boolean }) => {
     const isWeeklyOff = shift.type === 'WEEKLY_OFF';
@@ -77,6 +78,7 @@ const CalendarSkeleton = () => (
 
 export default function RotaCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedGroup, setSelectedGroup] = useState<Group>('A');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -103,41 +105,51 @@ export default function RotaCalendar() {
   }
 
   return (
-    <Card className="shadow-lg animate-in fade-in-50 duration-500">
-      <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
-        <h2 className="text-xl font-semibold font-headline text-primary">
-          {format(currentDate, 'MMMM yyyy')}
-        </h2>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" onClick={prevMonth} aria-label="Previous month">
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          <Button variant="outline" size="icon" onClick={nextMonth} aria-label="Next month">
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent className="p-2 sm:p-4">
-        <div className="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-semibold text-muted-foreground mb-2">
-          {weekDays.map(day => (
-            <div key={day}>{day}</div>
-          ))}
-        </div>
-        <div className="grid grid-cols-7 gap-1 sm:gap-2">
-          {calendarDays.map(day => {
-            const shift = getShiftForDate(day);
-            return (
-              <DayCard
-                key={day.toString()}
-                day={day}
-                shift={shift}
-                isCurrentMonth={isSameMonth(day, currentDate)}
-                isTodayFlag={isToday(day)}
-              />
-            );
-          })}
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-4">
+      <Tabs value={selectedGroup} onValueChange={(value) => setSelectedGroup(value as Group)} className="w-full max-w-sm mx-auto">
+        <TabsList className="grid w-full grid-cols-4 h-12">
+          <TabsTrigger value="A" className="text-xs sm:text-sm">Group A</TabsTrigger>
+          <TabsTrigger value="B" className="text-xs sm:text-sm">Group B</TabsTrigger>
+          <TabsTrigger value="C" className="text-xs sm:text-sm">Group C</TabsTrigger>
+          <TabsTrigger value="D" className="text-xs sm:text-sm">Group D</TabsTrigger>
+        </TabsList>
+      </Tabs>
+      <Card className="shadow-lg animate-in fade-in-50 duration-500">
+        <CardHeader className="flex flex-row items-center justify-between p-4 border-b">
+          <h2 className="text-xl font-semibold font-headline text-primary">
+            {format(currentDate, 'MMMM yyyy')}
+          </h2>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="icon" onClick={prevMonth} aria-label="Previous month">
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" size="icon" onClick={nextMonth} aria-label="Next month">
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="p-2 sm:p-4">
+          <div className="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-semibold text-muted-foreground mb-2">
+            {weekDays.map(day => (
+              <div key={day}>{day}</div>
+            ))}
+          </div>
+          <div className="grid grid-cols-7 gap-1 sm:gap-2">
+            {calendarDays.map(day => {
+              const shift = getShiftForDate(day, selectedGroup);
+              return (
+                <DayCard
+                  key={day.toString()}
+                  day={day}
+                  shift={shift}
+                  isCurrentMonth={isSameMonth(day, currentDate)}
+                  isTodayFlag={isToday(day)}
+                />
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

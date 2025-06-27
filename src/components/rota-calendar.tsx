@@ -42,7 +42,7 @@ const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift
             )}
         >
             <div className={cn(
-                'font-bold text-sm sm:text-base',
+                'font-bold text-base sm:text-lg',
                 isTodayFlag ? 'text-primary' : (isCurrentMonth ? styles.text : '')
             )}>
                 {format(day, 'd')}
@@ -50,7 +50,7 @@ const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift
             <div className="flex flex-col items-center text-center gap-1">
                 <ShiftIcon type={shift.type} className={cn('w-5 h-5 sm:w-6 sm:h-6', isCurrentMonth ? styles.icon : 'text-primary')} />
                 <span className={cn(
-                    'text-[10px] sm:text-xs font-medium',
+                    'text-xs sm:text-sm font-bold',
                     isCurrentMonth ? styles.name : 'text-muted-foreground'
                 )}>{shift.name}</span>
             </div>

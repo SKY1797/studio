@@ -41,11 +41,11 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --shift-morning: 91 38% 65%;
-    --shift-evening: 31 91% 58%;
-    --shift-night: 227 10% 38%;
-    --shift-weekly-off: 199 35% 62%;
-    --shift-general: 207 100% 93%;
+    --shift-morning: 91 38% 65%; /* #A8C686 */
+    --shift-evening: 25 68% 67%; /* #E59F71 */
+    --shift-night: 227 10% 38%; /* #555B6E */
+    --shift-weekly-off: 199 35% 62%; /* #6CA6C1 */
+    --shift-general: 207 100% 93%; /* #D6EFFF */
   }
   .dark {
     --background: 222.2 84% 4.9%;
@@ -81,7 +81,7 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     --shift-morning: 91 38% 65%;
-    --shift-evening: 31 91% 58%;
+    --shift-evening: 25 68% 67%; /* #E59F71 */
     --shift-night: 227 10% 38%;
     --shift-weekly-off: 199 35% 62%;
     --shift-general: 207 100% 93%;

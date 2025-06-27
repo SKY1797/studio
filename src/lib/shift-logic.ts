@@ -20,9 +20,9 @@ export const SHIFT_CYCLE: readonly Shift[] = [
 ] as const;
 
 // A fixed reference date to ensure the rota is consistent and predictable.
-// Let's assume 2024-01-01 was a 'Morning Shift' (index 6 of our cycle).
-const REFERENCE_DATE = new Date('2024-01-01T00:00:00Z');
-const REFERENCE_SHIFT_INDEX = 6; 
+// Let's assume 2025-06-27 was an 'Evening Shift' (index 0 of our cycle).
+const REFERENCE_DATE = new Date('2025-06-27T00:00:00Z');
+const REFERENCE_SHIFT_INDEX = 0; 
 
 export function getShiftForDate(date: Date): Shift {
   const daysDifference = differenceInCalendarDays(date, REFERENCE_DATE);

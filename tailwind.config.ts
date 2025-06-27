@@ -65,6 +65,13 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        shift: {
+          morning: 'hsl(var(--shift-morning))',
+          evening: 'hsl(var(--shift-evening))',
+          night: 'hsl(var(--shift-night))',
+          'weekly-off': 'hsl(var(--shift-weekly-off))',
+          general: 'hsl(var(--shift-general))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

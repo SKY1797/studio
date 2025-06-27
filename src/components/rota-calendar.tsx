@@ -15,7 +15,7 @@ import {
 } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getShiftForDate, type Shift, type Group } from '@/lib/shift-logic';
+import { getShiftForDate, type Shift, type Group, ShiftType } from '@/lib/shift-logic';
 import { ShiftIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -23,29 +23,35 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift: Shift; isCurrentMonth: boolean; isTodayFlag: boolean }) => {
-    const isWeeklyOff = shift.type === 'WEEKLY_OFF';
+    const shiftStyles: Record<ShiftType, { bg: string, text: string, icon: string, name: string }> = {
+        MORNING:    { bg: 'bg-shift-morning',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
+        EVENING:    { bg: 'bg-shift-evening',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
+        NIGHT:      { bg: 'bg-shift-night',      text: 'text-primary-foreground', icon: 'text-primary-foreground', name: 'text-primary-foreground/80' },
+        WEEKLY_OFF: { bg: 'bg-shift-weekly-off', text: 'text-primary-foreground', icon: 'text-primary-foreground', name: 'text-primary-foreground/80' },
+        GENERAL:    { bg: 'bg-shift-general',    text: 'text-foreground',         icon: 'text-primary', name: 'text-muted-foreground' },
+    };
+    
+    const styles = shiftStyles[shift.type];
     
     return (
         <div
             className={cn(
                 'relative flex flex-col justify-between h-28 sm:h-32 rounded-lg p-2 border transition-all duration-200 ease-in-out hover:-translate-y-1 hover:shadow-md',
-                !isCurrentMonth && 'text-muted-foreground/70 bg-muted/50',
-                isCurrentMonth && 'bg-card',
+                !isCurrentMonth ? 'text-muted-foreground/70 bg-muted/50' : styles.bg,
                 isTodayFlag && 'ring-2 ring-primary ring-offset-2 ring-offset-background',
-                isWeeklyOff && 'bg-accent/20 border-accent text-accent-foreground',
             )}
         >
             <div className={cn(
                 'font-bold text-sm sm:text-base',
-                isTodayFlag ? 'text-primary' : ''
+                isTodayFlag ? 'text-primary' : (isCurrentMonth ? styles.text : '')
             )}>
                 {format(day, 'd')}
             </div>
             <div className="flex flex-col items-center text-center gap-1">
-                <ShiftIcon type={shift.type} className={cn('w-5 h-5 sm:w-6 sm:h-6', isWeeklyOff ? 'text-accent-foreground' : 'text-primary')} />
+                <ShiftIcon type={shift.type} className={cn('w-5 h-5 sm:w-6 sm:h-6', isCurrentMonth ? styles.icon : 'text-primary')} />
                 <span className={cn(
                     'text-[10px] sm:text-xs font-medium',
-                     isWeeklyOff ? 'text-accent-foreground' : 'text-muted-foreground'
+                    isCurrentMonth ? styles.name : 'text-muted-foreground'
                 )}>{shift.name}</span>
             </div>
         </div>

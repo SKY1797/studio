@@ -42,15 +42,15 @@ const DayCard = ({ day, shift, isCurrentMonth, isTodayFlag }: { day: Date; shift
             )}
         >
             <div className={cn(
-                'font-bold text-base sm:text-lg',
+                'font-bold text-base',
                 isTodayFlag ? 'text-primary' : (isCurrentMonth ? styles.text : '')
             )}>
                 {format(day, 'd')}
             </div>
             <div className="flex flex-col items-center text-center gap-1">
-                <ShiftIcon type={shift.type} className={cn('w-5 h-5 sm:w-6 sm:h-6', isCurrentMonth ? styles.icon : 'text-primary')} />
+                <ShiftIcon type={shift.type} className={cn('w-5 h-5', isCurrentMonth ? styles.icon : 'text-primary')} />
                 <span className={cn(
-                    'text-xs sm:text-sm font-bold',
+                    'text-xs font-bold',
                     isCurrentMonth ? styles.name : 'text-muted-foreground'
                 )}>{shift.name}</span>
             </div>
@@ -136,14 +136,14 @@ export default function RotaCalendar() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="p-2 sm:p-4 flex-1 flex flex-col">
-          <div className="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-semibold text-muted-foreground mb-2">
+        <CardContent className="p-2 flex-1 flex flex-col gap-2">
+          <div className="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-semibold text-muted-foreground">
             {weekDays.map(day => (
               <div key={day}>{day}</div>
             ))}
           </div>
           <div
-            className="grid grid-cols-7 gap-1 sm:gap-2 flex-1"
+            className="grid grid-cols-7 gap-1 flex-1"
             style={{ gridTemplateRows: `repeat(${numRows}, minmax(0, 1fr))` }}
           >
             {calendarDays.map(day => {
